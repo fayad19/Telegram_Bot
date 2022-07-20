@@ -125,6 +125,11 @@ def sakit(message):
     bot.send_message(message.chat.id, "Kim sukaliyib meni?")
 
 
+@bot.message_handler(commands=['Gravy'])
+def gravy(message):
+    bot.send_message(message.chat.id, "Sukaliyanlar ucun babat sous var")
+
+
 @bot.message_handler(commands=['Abrikos'])
 def sakit(message):
     bot.send_message(message.chat.id, "Esil samogonlug maldi")
