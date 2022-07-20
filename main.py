@@ -115,6 +115,11 @@ def nurlan(message):
     bot.send_message(message.chat.id, "Fuck, OPEN SHORT!")
 
 
+@bot.message_handler(commands=['Prius'])
+def prius(message):
+    bot.send_message(message.chat.id, "Moskvada menim biznesim var, bele ozumcun sururem")
+
+
 @bot.message_handler(commands=['Sakit'])
 def sakit(message):
     bot.send_message(message.chat.id, "Kim sukaliyib meni?")
