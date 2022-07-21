@@ -108,6 +108,7 @@ def prices(message):
         price = data['price']
         j = j + 1
         bot.send_message(message.chat.id, f"{symb[:-4]} price is: {price[:-4]}")
+    gst(message)
 
 
 @bot.message_handler(commands=['Nurlan'])
