@@ -6,6 +6,7 @@ from requests import Request, Session
 import json
 from binance import Client
 import datetime
+from datetime import datetime
 
 # Binance
 api_key = 'hcIIyMSMHnTodQ4r30tHQZUa1sjJ6toJIlFDdFGZRD3sxwF42HNpOPIW0eoHjy8e'
@@ -100,9 +101,40 @@ def find_file_ids(message):
 
 @bot.message_handler(commands=['Price'])
 def prices(message):
-    currencies = ["GMTUSDT", "SOLUSDT"]
-    j = 0
 
+    global coins, prices
+    down = u'down \u2B07 '
+    up = u'up \u2B06 '
+    currencies = ["GMTUSDT", "SOLUSDT"]
+
+    curr_time = datetime.now()
+    curr_time_str = curr_time.strftime("%m-%d-%Y, %H:%M:%S")
+
+    with open('gst_price.json', 'r') as openfile:
+        # Reading from json file
+        coin_prices = json.load(openfile)
+
+    last_check_time = datetime.strptime(coin_prices[3]['time'], "%m-%d-%Y, %H:%M:%S")
+
+    diff = curr_time - last_check_time
+    minn = round(diff.seconds // 60)
+
+    if diff.seconds < 3600:
+        if minn < 2 and minn != 0:
+            bot.send_message(message.chat.id, "Price was last checked " + str(minn) + " minute ago")
+        else:
+            bot.send_message(message.chat.id, "Price was last checked " + str(minn) + " minutes ago")
+    else:
+        if minn % 60 > 1 and minn % 60 != 0:
+            bot.send_message(message.chat.id, "Price was last checked " + str(round(minn / 60)) + " hours and " + str(
+                minn % 60) + " minutes ago")
+        else:
+            bot.send_message(message.chat.id, "Price was last checked " + str(round(minn / 60)) + " hours and " + str(
+                minn % 60) + " minute ago")
+
+    dictionary = ["data:"]
+
+    j = 0
     for i in currencies:
         url = key + currencies[j]
         data = requests.get(url)
@@ -110,7 +142,34 @@ def prices(message):
         symb = data['symbol']
         price = data['price']
         j = j + 1
-        bot.send_message(message.chat.id, f"{symb[:-4]} price is: {price[:-4]}")
+        coins = {'name': symb[:-4] for i in range(2)}
+        dictionary.append(coins)
+        # print(dictionary)
+        prices = {'price': price[:-4] for i in range(2)}
+        dictionary.append(prices)
+        dictionary.append({"time": curr_time_str})
+        old_gmt_price = coin_prices[2]['price']
+        old_sol_price = coin_prices[5]['price']
+
+        # Bot sending price of coins
+        if symb[:-4] == "GMT" :
+            if price[:-4] < coin_prices[2]['price']:
+                bot.send_message(message.chat.id,
+                                 f'{symb[:-4]} price is going down \u2B07: {price[:-4]}. Previous price was {old_gmt_price}')
+            else:
+                bot.send_message(message.chat.id,
+                                 f'{symb[:-4]} price is going up \u2B06: {price[:-4]}. Previous price was {old_gmt_price}')
+        elif symb[:-4] == "SOL" :
+            if price[:-4] < coin_prices[5]['price']:
+                bot.send_message(message.chat.id,
+                                 f'{symb[:-4]} price is going down \u2B07: {price[:-4]}. Previous price was {old_sol_price}')
+            else:
+                bot.send_message(message.chat.id,
+                                 f'{symb[:-4]} price is going up \u2B06: {price[:-4]}. Previous price was {old_sol_price}')
+
+    with open("gst_price.json", "w") as outfile:
+        json.dump(dictionary, outfile)
+
     gst(message)
 
 
