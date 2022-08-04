@@ -77,7 +77,7 @@ def gst(message):
     # time_now = "Current Time = " + difference
 
     present = datetime.datetime.now()
-    future = datetime.datetime(2022, 7, 31, 13, 0, 0)
+    future = datetime.datetime(2022, 8, 13, 13, 0, 0)
     difference = future - present
     if present < future:
         time_till_nardaran = "Hopefully, time till Nardaran PARTYYYYY: " + str(difference)
@@ -102,9 +102,6 @@ def find_file_ids(message):
 @bot.message_handler(commands=['Price'])
 def prices(message):
 
-    global coins, prices
-    down = u'down \u2B07 '
-    up = u'up \u2B06 '
     currencies = ["GMTUSDT", "SOLUSDT"]
 
     curr_time = datetime.now()
