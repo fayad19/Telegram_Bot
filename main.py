@@ -80,7 +80,7 @@ def gst(message):
     future = datetime(2022, 8, 13, 13, 0, 0)
     difference = future - present
     if present < future:
-        time_till_nardaran = "Hopefully, time till Nardaran PARTYYYYY: " + str(difference)
+        time_till_nardaran = "Confirmed, time till Nardaran PARTYYYYY: " + str(difference)
     else:
         time_till_nardaran = "Siz Landmarki sevmiyorsunuz, ne parti ya"
     bot.send_message(message.chat.id, time_till_nardaran)
