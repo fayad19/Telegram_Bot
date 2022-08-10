@@ -99,6 +99,8 @@ def find_file_ids(message):
             msg = bot.send_voice(message.chat.id, f, None)
 
 
+
+
 @bot.message_handler(commands=['Price'])
 def prices(message):
 
@@ -216,6 +218,13 @@ def find_file_ids(message):
         if file.split('.')[-1] == 'mp4':
             f = open('video/' + file, 'rb')
             msg = bot.send_voice(message.chat.id, f, None)
+
+
+@bot.message_handler(commands=['Traitor'])
+def find_file_ids(message):
+    f = open('animation/traitor.gif', 'rb')
+    bot.send_animation(message.chat.id, f, None)
+    f.close()
 
 
 @bot.message_handler(commands=['Obed'])
