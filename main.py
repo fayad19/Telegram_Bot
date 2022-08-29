@@ -77,7 +77,7 @@ def gst(message):
     # time_now = "Current Time = " + difference
 
     present = datetime.now()
-    future = datetime(2022, 8, 13, 13, 0, 0)
+    future = datetime(2022, 9, 3, 14, 0, 0)
     difference = future - present
     if present < future:
         time_till_nardaran = "Confirmed, time till Nardaran PARTYYYYY: " + str(difference)
